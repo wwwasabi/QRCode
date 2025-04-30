@@ -22,15 +22,18 @@ if link:
 
         img = qr.make_image(fill_color="black", back_color="white")
 
-        st.image(img, caption="Seu QR Code", use_column_width=False)
-
+        # Salva em buffer
         buf = io.BytesIO()
         img.save(buf, format="PNG")
-        byte_im = buf.getvalue()
+        buf.seek(0)
 
+        # Exibe o QR code
+        st.image(buf, caption="Seu QR Code", use_column_width=False)
+
+        # Botão de download
         st.download_button(
             label="📥 Baixar QR Code",
-            data=byte_im,
+            data=buf,
             file_name="qrcode.png",
             mime="image/png"
         )
